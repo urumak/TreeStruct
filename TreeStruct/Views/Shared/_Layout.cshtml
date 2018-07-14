@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/menu.style.css" rel="stylesheet" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <!--pasek nawigacji-->
+    <nav class="navbar navbar-expand-lg bg-dark">
+        <a class="navbar-brand" href="/">Tree Struct</a>
+        <ul class="navbar-nav ml-auto">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <!--jeśli użytkownik jest zalogowany to wyświetlam jego dane i przycik do wylogowania-->
+                <li>
+                    <a class="navbar-brand"><font color="white">Hello, @(User.Identity.Name)!</font></a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Logout", "User")" class="btn btn-primary">Log Out</a>
+                </li>
+
+            }
+            else
+            {
+                <!--jeśli użytkownik nie jest zalogowany to wyświtlam przyciski do logowania i tworzenia użytkownika-->
+                <li>
+                    <a href="@Url.Action("Login", "User")" class="btn btn-primary">Log In</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Create", "User")" class="btn btn-primary">Register</a>
+                </li>
+            }
+        </ul>
+    </nav>
+    <div class="row panel">
+        <div id="categories" class="col-xs-3 bg-light">
+            <!--częściowy widok dla menu-->
+            @Html.Action("Menu", "Node")
+        </div>
+        <div class="col-sm-9">
+            <!--tu wyświetla się odpowiedni dla adresu url widok-->
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+﻿@using TreeStruct.Models
+@model ChangeLocationViewModel
+<!--helper do rekurencynego wyświetnenia drzewa-->
+@helper Recursive(Node parent)
+    {
+        //jeśli węzeł ma dzieci
+        if (parent.Children.Count > 0)
+        {
+            //to dla każdego z nich tworzę radio button
+            //i wywołuję rekurencyją metodę, tworzącą drzewo
+            foreach (Node child in parent.Children)
+            {
+                <ul>
+                    <li>
+                        <label>@child.Name</label>
+                        @Html.RadioButtonFor(x => x.NewParentId, child.Id.ToString())
+                        @Recursive(child)
+                    </li>
+                </ul>
+            }
+        }
+}
+@{
+    ViewBag.Title = "AddNode";
+}
+
+<h2>@Model.Node.Name</h2>
+<h4>Select New Parent</h4>
+
+
+@using (Html.BeginForm())
+{
+    foreach (Node node in Model.Nodes)
+    {
+        //dla każdego korzenia
+        if (node.Parent == null)
+        {
+            <ul>
+                <li>
+                    <!--tworze radio button-->
+                    <label>@node.Name</label>
+                    @Html.RadioButtonFor(x => x.NewParentId, node.Id.ToString())
+                    <!--i wywołuję rekurencyjny helper-->
+                    @Recursive(node)
+                </li>
+            </ul>
+        }
+    }
+    <ul>
+        <li>
+            <!--jesli węzeł ma się stać teraz korzeniem-->
+            <label>No Parent</label>
+            @Html.RadioButtonFor(x => x.NewParentId, "")
+        </li>
+    </ul>
+    <button class="btn btn-primary" type="submit">Save</button>
+    <!--odrzucenie zmian i porówt na poprzednią stronę-->
+    @Html.ActionLink("Cancel", null, null, null, new { href = Request.UrlReferrer })
+}

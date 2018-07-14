@@ -1,0 +1,44 @@
+﻿@model TreeStruct.Models.AddViewModel
+@{
+    ViewBag.Title = "AddNode";
+}
+<!--jeśli dodaję do węzła nadrzędnego-->
+@if (Model != null)
+{
+    <h2>@Model.Node.Name</h2>
+    <h4>Add Child</h4>
+}
+<!--jeśli dodaję korzeń-->
+else
+{
+    <h2>Add Tree</h2>
+}
+
+<!--Informacje na temat walidacji danych, jeśli były jakieś błędy-->
+@Html.ValidationSummary()
+<!--formularz-->
+@using (Html.BeginForm())
+{
+    <!--label jest do wyśietnenia informacji, textbox do wpisania odpowienich danych-->
+    <div class="form-group">
+        *@Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Content, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.Content, new { @class = "form-control" })
+        </div>
+    </div>
+    <!--pola wymagane zaznaczone są gwiazdką-->
+    <div>
+        <label>* required fields</label>
+    </div>
+    <!--zatwierdzenie-->
+    <button class="btn btn-primary" type="submit">Add</button>
+    <!--rezygancja ze zmian i powrót do poprzeniej strony-->
+    @Html.ActionLink("Cancel", null, null, null, new { href = Request.UrlReferrer })
+}
+

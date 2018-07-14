@@ -1,0 +1,20 @@
+﻿@model TreeStruct.Models.ChangeNameViewModel
+@{
+    ViewBag.Title = "ChangeName";
+}
+<!--analogicznie jak ChangeContent-->
+<h2>@Model.Node.Name</h2>
+<h4>Change Name</h4>
+
+@Html.ValidationSummary(false)
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+    @Html.ActionLink("Cancel", null, null, null, new { href = Request.UrlReferrer })
+}

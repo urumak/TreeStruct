@@ -1,0 +1,87 @@
+﻿@using TreeStruct.Models;
+<!--jesli value jest true to węzeł ma być rozwinięty, jeśli false to zwinęty-->
+@model Dictionary<Node, bool>
+<!--helper odpowiedzialny za tworzenie drzewa-->
+<!--rekurencyjnie będzie się zagnieżdżała też lista-->
+@helper RecursiveTree(KeyValuePair<Node, bool> parent)
+    {   
+        //jeśli węzeł z przekazanej pary ma dzieci i ma być rozwinięty
+        if (parent.Key.Children != null && parent.Value)
+        {
+            //sprawdzam wszystkie węzły
+            foreach (KeyValuePair<Node, bool> child in Model)
+            {
+                //jeśli węzeł ma rodzica i jego rodzicem jest ten przekazany do helpera
+                if (child.Key.Parent != null && child.Key.Parent.Id == parent.Key.Id)
+                {
+                    <ul>
+                        <li>
+                            <!--tworzę link do węzła-->
+                            @Html.RouteLink(child.Key.Name, new { controller = "Node", action = "NodeContent", id = child.Key.Id })
+                            @if (child.Key.Children.Count > 0)
+                            {
+                                //jeśli węzeł ma dzieci to tworze link do zwijania lub rozwijania w zależności od stanu value
+                                if (!child.Value)
+                                {
+                                    @Html.RouteLink("▼", new { controller = "Node", action = "Expand", id = child.Key.Id })
+                                }
+                                else
+                                {
+                                    @Html.RouteLink("▲", new { controller = "Node", action = "Collapse", id = child.Key.Id })
+                                }
+                            }
+                            <!--dalej wywołuję metodę rekurencyją dla każddego z dzieci-->
+                            @RecursiveTree(child)
+                        </li>
+                    </ul>
+                }
+            }
+        }
+}
+
+<!--dla każdej pary w słowniku-->
+@foreach (KeyValuePair<Node, bool> pair in Model)
+{
+    //jeśli węzeł jest korzeniem
+    if (pair.Key.Parent == null)
+    {
+        <ul>
+            <li>
+                <!--tworzę link do węzła-->
+                @Html.RouteLink(pair.Key.Name, new { controller = "Node", action = "NodeContent", id = pair.Key.Id })
+                <!--jeśli ma dzieci to wyświetlam link do zwinięcia lub rozwinięcia-->
+                @if (pair.Key.Children.Count > 0)
+                {
+                    if (!pair.Value)
+                    {
+                        @Html.RouteLink("▼", new { controller = "Node", action = "Expand", id = pair.Key.Id })
+
+                    }
+                    else
+                    {
+                        @Html.RouteLink("▲", new { controller = "Node", action = "Collapse", id = pair.Key.Id })
+                    }
+                }
+                <!--wywołuję rekurencyjny helper dla pary z korzeniem-->
+                @RecursiveTree(pair)
+            </li>
+        </ul>
+    }
+
+}
+
+<!--jeśli użytkownik jest zalogowany to dodaję odpowiednie przyciski dla niego-->
+@if (User.Identity.IsAuthenticated)
+{
+        <p>
+            @Html.RouteLink("Add Tree", new { controller = "Admin", action = "AddNode" }, new { @class = "btn btn-primary" })
+            @Html.RouteLink("Sort/Undo", new { controller = "Node", action = "Sort" }, new { @class = "btn btn-primary" })
+        </p>
+}
+
+<!--linki do rozwinięcia lub zwinięcia całej struktury drzewa-->
+<p>
+    @Html.RouteLink("Expand All", new { controller = "Node", action = "ExpandAll" }, new { @class = "btn btn-primary" })
+    @Html.RouteLink("Collapse All", new { controller = "Node", action = "CollapseAll" }, new { @class = "btn btn-primary" })
+</p>
+

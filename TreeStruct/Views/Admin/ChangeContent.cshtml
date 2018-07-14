@@ -1,0 +1,23 @@
+﻿@model TreeStruct.Models.ChangeContentViewModel
+@{
+    ViewBag.Title = "ChangeContent";
+}
+<!--wyświtlenie nazwy-->
+<h2>@Model.Node.Name</h2>
+<h4>Change Content</h4>
+
+<!--informacje o walidacji-->
+@Html.ValidationSummary(false)
+<!--formularz-->
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Content, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(m => m.Content, new { @class = "form-control" })
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">Save</button>
+    <!--odrzucenie zmian i powrót-->
+    @Html.ActionLink("Cancel", null, null, null, new { href = Request.UrlReferrer })
+}

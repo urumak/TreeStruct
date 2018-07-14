@@ -1,0 +1,17 @@
+﻿@model TreeStruct.Models.Node
+@{
+    ViewBag.Title = "NodeContent";
+}
+<!--jeśli użytkownik jest zagolowany to wyświetlam odpowiednie linki do akcji, które może on wykonywać-->
+@if (User.Identity.IsAuthenticated)
+{
+    @Html.RouteLink("Add Child", new { controller = "Admin", action = "AddNode", id = Model.Id }, new { @class = "btn btn-default" })
+    @Html.RouteLink("Change Name", new { controller = "Admin", action = "ChangeName", id = Model.Id }, new { @class = "btn btn-default" })
+    @Html.RouteLink("Change Content", new { controller = "Admin", action = "ChangeContent", id = Model.Id }, new { @class = "btn btn-default" })
+    @Html.RouteLink("Delete Node", new { controller = "Admin", action = "DeleteNode", id = Model.Id }, new { @class = "btn btn-default" })
+    @Html.RouteLink("Change Node Location", new { controller = "Admin", action = "ChangeNodeLocation", id = Model.Id }, new { @class = "btn btn-default" })
+}
+
+<!--wyświetlam nazwę i zawartosć węzła-->
+<h2>@Model.Name</h2>
+<div>@Model.Content</div>
