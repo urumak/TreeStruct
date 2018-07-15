@@ -27,12 +27,12 @@ namespace TreeStruct.Infrastructure
     //klasa inicjalizabyjna dla DatabaseContext
     public class DatabaseInit : DropCreateDatabaseIfModelChanges<DatabaseContext>
     {
-        //przeciążona metoda seed
+        //przesłonięta metoda seed
         protected override void Seed(DatabaseContext context)
         {
             //metoda tworząca odpowiednie obiekty "na start"
             PerformInitialSetup(context);
-            //wywołanie bazowej metosy seed
+            //wywołanie bazowej metody seed
             base.Seed(context);
         }
 
@@ -195,7 +195,7 @@ namespace TreeStruct.Infrastructure
     public class IdentityDbInit
         : DropCreateDatabaseIfModelChanges<IdentityDatabaseContext>
     {
-        //przeciążona metoda seed
+        //przesłonięta metoda seed
         protected override void Seed(IdentityDatabaseContext context)
         {
             PerformInitialSetup(context);
