@@ -39,33 +39,40 @@
         }
 }
 
+<style>
+    .tree ul{
+        list-style:none;
+    }
+</style>
 <!--dla każdej pary w słowniku-->
 @foreach (KeyValuePair<Node, bool> pair in Model)
 {
     //jeśli węzeł jest korzeniem
     if (pair.Key.Parent == null)
     {
-        <ul>
-            <li>
-                <!--tworzę link do węzła-->
-                @Html.RouteLink(pair.Key.Name, new { controller = "Node", action = "NodeContent", id = pair.Key.Id })
-                <!--jeśli ma dzieci to wyświetlam link do zwinięcia lub rozwinięcia-->
-                @if (pair.Key.Children.Count > 0)
-                {
-                    if (!pair.Value)
+        <div class="tree">
+            <ul>
+                <li>
+                    <!--tworzę link do węzła-->
+                    @Html.RouteLink(pair.Key.Name, new { controller = "Node", action = "NodeContent", id = pair.Key.Id })
+                    <!--jeśli ma dzieci to wyświetlam link do zwinięcia lub rozwinięcia-->
+                    @if (pair.Key.Children.Count > 0)
                     {
-                        @Html.RouteLink("▼", new { controller = "Node", action = "Expand", id = pair.Key.Id })
+                        if (!pair.Value)
+                        {
+                            @Html.RouteLink("▼", new { controller = "Node", action = "Expand", id = pair.Key.Id })
 
+                        }
+                        else
+                        {
+                            @Html.RouteLink("▲", new { controller = "Node", action = "Collapse", id = pair.Key.Id })
+                        }
                     }
-                    else
-                    {
-                        @Html.RouteLink("▲", new { controller = "Node", action = "Collapse", id = pair.Key.Id })
-                    }
-                }
-                <!--wywołuję rekurencyjny helper dla pary z korzeniem-->
-                @RecursiveTree(pair)
-            </li>
-        </ul>
+                    <!--wywołuję rekurencyjny helper dla pary z korzeniem-->
+                    @RecursiveTree(pair)
+                </li>
+            </ul>
+        </div>
     }
 
 }
