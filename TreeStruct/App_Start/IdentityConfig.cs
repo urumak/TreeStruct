@@ -3,7 +3,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using TreeStruct.Infrastructure;
-namespace Users
+namespace TreeStruct
 {
     public class IdentityConfig
     {

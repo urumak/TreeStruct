@@ -4,7 +4,7 @@
 <!--helper odpowiedzialny za tworzenie drzewa-->
 <!--rekurencyjnie będzie się zagnieżdżała też lista-->
 @helper RecursiveTree(KeyValuePair<Node, bool> parent)
-    {   
+    {
         //jeśli węzeł z przekazanej pary ma dzieci i ma być rozwinięty
         if (parent.Key.Children != null && parent.Value)
         {
@@ -73,10 +73,10 @@
 <!--jeśli użytkownik jest zalogowany to dodaję odpowiednie przyciski dla niego-->
 @if (User.Identity.IsAuthenticated)
 {
-        <p>
-            @Html.RouteLink("Add Tree", new { controller = "Admin", action = "AddNode" }, new { @class = "btn btn-primary" })
-            @Html.RouteLink("Sort/Undo", new { controller = "Node", action = "Sort" }, new { @class = "btn btn-primary" })
-        </p>
+    <p>
+        @Html.RouteLink("Add Tree", new { controller = "Admin", action = "AddNode" }, new { @class = "btn btn-primary" })
+        @Html.RouteLink("Sort/Undo", new { controller = "Node", action = "Sort" }, new { @class = "btn btn-primary" })
+    </p>
 }
 
 <!--linki do rozwinięcia lub zwinięcia całej struktury drzewa-->

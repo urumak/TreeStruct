@@ -97,7 +97,7 @@ namespace TreeStruct.Infrastructure
             {
                 Children = null,
                 Parent = node11,
-                Name = "Node 1.2",
+                Name = "Node 1.1.1",
                 Content = "Content"
             };
             node11.Children.Add(node111);
